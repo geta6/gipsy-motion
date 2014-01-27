@@ -77,9 +77,12 @@ module.exports = (grunt) ->
           hostname: '*'
           port: 3000
           middleware: (connect, options) ->
-            mw = [connect.logger 'dev']
+            mw = [
+              connect.logger 'dev'
+              connect.query()
+            ]
             mw.push (req, res, next) ->
-              return next() unless req.url is '/push'
+              return next() unless /^\/push/.test req.url
               SIO_RIGHT = 2
               SIO_LEFT = 1
               ID_NECK = 0
@@ -102,7 +105,7 @@ module.exports = (grunt) ->
                   ics: makeIcs SIO_RIGHT, ID_NECK
                   value: 5000
                 }
-                { command: 1 }
+                { command: (parseInt req.query.id, 10) or 1 }
               ]
               message = new Buffer JSON.stringify json
               client = dgram.createSocket 'udp4'

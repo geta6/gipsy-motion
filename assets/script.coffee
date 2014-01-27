@@ -40,6 +40,7 @@ window.addEventListener 'devicemotion', (event) ->
       phase[0] = on
       lock = yes
       $.ajax '/push',
+        data: id: 51
         success: ->
           setTimeout ->
             lock = no
@@ -53,12 +54,13 @@ window.addEventListener 'devicemotion', (event) ->
       phase[1] = on
       lock = yes
       $.ajax '/push',
+        data: id: 52
         success: ->
           setTimeout ->
             lock = no
           , 1000
   else if !lock and !phase[2]
-    if ac.z > 30
+    if ac.z > 20
       ($ "#ac2").css 'color', '#00F'
       aud.load()
       aud.play()
@@ -66,6 +68,7 @@ window.addEventListener 'devicemotion', (event) ->
       phase[2] = on
       lock = yes
       $.ajax '/push',
+        data: id: 53
         success: ->
           setTimeout ->
             lock = no
