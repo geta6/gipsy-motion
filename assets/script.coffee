@@ -15,7 +15,6 @@ lock = no
   aud.pause()
   ($ this).fadeOut 240
 
-
 window.addEventListener 'devicemotion', (event) ->
   event.preventDefault()
   ac = event.acceleration
@@ -40,9 +39,11 @@ window.addEventListener 'devicemotion', (event) ->
       ($ '#st1').addClass 'on'
       phase[0] = on
       lock = yes
-      setTimeout ->
-        lock = no
-      , 1000
+      $.ajax '/push',
+        success: ->
+          setTimeout ->
+            lock = no
+          , 1000
   else if !lock and !phase[1] and !phase[2]
     if ac.x > 30 and ac.x > y and ac.x > z
       ($ "#ac1").css 'color', '#00F'
@@ -51,9 +52,11 @@ window.addEventListener 'devicemotion', (event) ->
       ($ '#st2').addClass 'on'
       phase[1] = on
       lock = yes
-      setTimeout ->
-        lock = no
-      , 1000
+      $.ajax '/push',
+        success: ->
+          setTimeout ->
+            lock = no
+          , 1000
   else if !lock and !phase[2]
     if ac.z > 30
       ($ "#ac2").css 'color', '#00F'
@@ -62,11 +65,11 @@ window.addEventListener 'devicemotion', (event) ->
       ($ '#st3').addClass 'on'
       phase[2] = on
       lock = yes
-      setTimeout ->
-        lock = no
-      , 1000
-
-
+      $.ajax '/push',
+        success: ->
+          setTimeout ->
+            lock = no
+          , 1000
 
   ($ "#ac0").html "X: #{ac.x}<br>#{max.x}<br>#{min.x}"
   ($ "#ac1").html "Y: #{ac.y}<br>#{max.y}<br>#{min.y}"
